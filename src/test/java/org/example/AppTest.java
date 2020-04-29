@@ -8,6 +8,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static java.lang.Thread.*;
 import static org.junit.Assert.assertEquals;
@@ -97,6 +100,13 @@ public class AppTest
         sleep(2000);
         WebElement loginAttempt = driver.findElement(By.cssSelector("body > table > tbody > tr > td.auto-style1 > big > blockquote > blockquote > font > center > b"));
         assertEquals("**Failed Login**", loginAttempt.getText());
+    }
+
+    @Test
+    public void explicitWaitExample() {
+        driver.get("http://www.google.co.uk");
+        WebElement searchBar = (new WebDriverWait(driver, 10)).until(ExpectedConditions.presenceOfElementLocated(By.name("q")));
+        assertTrue(searchBar.isDisplayed());
     }
 
     @After
