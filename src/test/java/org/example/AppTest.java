@@ -1,16 +1,18 @@
 package org.example;
 
+import com.google.common.base.Function;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
+
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.*;
 import static org.junit.Assert.assertEquals;
@@ -25,6 +27,7 @@ public class AppTest
         driver = new ChromeDriver();
     }
 
+    @Ignore
     @Test
     public void seleniumExampleTest() throws InterruptedException {
         driver.manage().window().maximize();
@@ -42,7 +45,7 @@ public class AppTest
         WebElement imagesLink = driver.findElement(By.className("rQEFy"));
         assertTrue(imagesLink.isDisplayed());
     }
-
+    @Ignore
     @Test
     public void exerciseDemoLoginSuccessTest() throws InterruptedException {
         driver.manage().window().maximize();
@@ -72,7 +75,7 @@ public class AppTest
         assertEquals("**Successful Login**", loginAttempt.getText());
     }
 // Note: inspect element and get selector to choose elements without identifiers!!
-
+    @Ignore
     @Test
     public void exerciseDemoLoginWrongPasswordTest() throws InterruptedException {
         driver.manage().window().maximize();
@@ -106,6 +109,22 @@ public class AppTest
     public void explicitWaitExample() {
         driver.get("http://www.google.co.uk");
         WebElement searchBar = (new WebDriverWait(driver, 10)).until(ExpectedConditions.presenceOfElementLocated(By.name("q")));
+        assertTrue(searchBar.isDisplayed());
+    }
+
+    @Test
+    public void fluentWaitExample() {
+        driver.get("http://www.google.co.uk");
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(30, TimeUnit.SECONDS)
+                .pollingEvery(5, TimeUnit.SECONDS)
+                .ignoring(NoSuchElementException.class);
+        WebElement searchBar = wait.until(new Function<WebDriver, WebElement>() {
+            @Override
+            public WebElement apply(WebDriver webDriver) {
+                return driver.findElement(By.name("q"));
+            }
+        });
         assertTrue(searchBar.isDisplayed());
     }
 
