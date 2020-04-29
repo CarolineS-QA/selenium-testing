@@ -41,7 +41,7 @@ public class AppTest
     }
 
     @Test
-    public void seleniumExerciseTest() throws InterruptedException {
+    public void exerciseDemoLoginSuccessTest() throws InterruptedException {
         driver.manage().window().maximize();
         sleep(1000);
         driver.get("http://thedemosite.co.uk/addauser.php");
@@ -53,22 +53,51 @@ public class AppTest
         passInput.sendKeys("lolthisisez");
         sleep(1000);
         button.click();
-        sleep(1000);
+        sleep(400);
         WebElement toLogin = driver.findElement(By.partialLinkText("Login"));
         toLogin.click();
-        sleep(1000);
+        sleep(400);
         WebElement userInputLogin = driver.findElement(By.name("username"));
         WebElement passInputLogin = driver.findElement(By.name("password"));
         WebElement buttonLogin = driver.findElement(By.name("FormsButton2"));
         userInputLogin.sendKeys("noIdsForMez");
         passInputLogin.sendKeys("lolthisisez");
-        sleep(2000);
+        sleep(400);
         buttonLogin.click();
         sleep(2000);
         WebElement loginAttempt = driver.findElement(By.cssSelector("body > table > tbody > tr > td.auto-style1 > big > blockquote > blockquote > font > center > b"));
         assertEquals("**Successful Login**", loginAttempt.getText());
     }
 // Note: inspect element and get selector to choose elements without identifiers!!
+
+    @Test
+    public void exerciseDemoLoginWrongPasswordTest() throws InterruptedException {
+        driver.manage().window().maximize();
+        sleep(1000);
+        driver.get("http://thedemosite.co.uk/addauser.php");
+        sleep(1000);
+        WebElement userInput = driver.findElement(By.name("username"));
+        WebElement passInput = driver.findElement(By.name("password"));
+        WebElement button = driver.findElement(By.name("FormsButton2"));
+        userInput.sendKeys("noIdsForMez");
+        passInput.sendKeys("lolthisisez");
+        sleep(1000);
+        button.click();
+        sleep(400);
+        WebElement toLogin = driver.findElement(By.partialLinkText("Login"));
+        toLogin.click();
+        sleep(400);
+        WebElement userInputLogin = driver.findElement(By.name("username"));
+        WebElement passInputLogin = driver.findElement(By.name("password"));
+        WebElement buttonLogin = driver.findElement(By.name("FormsButton2"));
+        userInputLogin.sendKeys("noIdsForMez");
+        passInputLogin.sendKeys("wrong");
+        sleep(400);
+        buttonLogin.click();
+        sleep(2000);
+        WebElement loginAttempt = driver.findElement(By.cssSelector("body > table > tbody > tr > td.auto-style1 > big > blockquote > blockquote > font > center > b"));
+        assertEquals("**Failed Login**", loginAttempt.getText());
+    }
 
     @After
     public void tearDown(){
