@@ -69,6 +69,9 @@ public class ExtentReportExerciseTest {
         sleep(2000);
         WebElement fallers = driver.findElement(By.xpath("//*[@id=\"content_div_40583\"]/ul/li[3]/a"));
         jsScroll();
+        WebElement riserTable = driver.findElement(By.xpath("//*[@id=\"view-constituents\"]/div[2]/table/tbody"));
+        String[] risersArray = riserTable.getText().split("\n");
+        test.log(LogStatus.INFO, "The highest riser is: " + risersArray[0]);
         fallers.click();
         test.log(LogStatus.INFO, "Click on 'fallers'");
         sleep(2000);
@@ -79,6 +82,10 @@ public class ExtentReportExerciseTest {
         assertEquals(freshHeader.getText(),"FTSE 100: TOP 20 FALLERS");
         test.log(LogStatus.PASS, "'FTSE 100: TOP 20 FALLERS' is shown in the header", "<img src=fallersPage.jpg>");
         sleep(5000);
+        jsScroll();
+        WebElement fallerTable = driver.findElement(By.xpath("//*[@id=\"view-constituents\"]/div[2]/table/tbody"));
+        String[] fallersArray = fallerTable.getText().split("\n");
+        test.log(LogStatus.INFO, "The highest faller is: " + fallersArray[0]);
     }
 
     @AfterMethod
