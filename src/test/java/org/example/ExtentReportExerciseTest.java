@@ -72,6 +72,9 @@ public class ExtentReportExerciseTest {
         WebElement riserTable = driver.findElement(By.xpath("//*[@id=\"view-constituents\"]/div[2]/table/tbody"));
         String[] risersArray = riserTable.getText().split("\n");
         test.log(LogStatus.INFO, "The highest riser is: " + risersArray[0]);
+        File riserTablePic = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(riserTablePic, new File(System.getProperty("user.dir") + "/test-output/risersTablePage.jpg"));
+        test.log(LogStatus.INFO, "Risers table", "<img src=risersTablePage.jpg>");
         fallers.click();
         test.log(LogStatus.INFO, "Click on 'fallers'");
         sleep(2000);
@@ -86,6 +89,9 @@ public class ExtentReportExerciseTest {
         WebElement fallerTable = driver.findElement(By.xpath("//*[@id=\"view-constituents\"]/div[2]/table/tbody"));
         String[] fallersArray = fallerTable.getText().split("\n");
         test.log(LogStatus.INFO, "The highest faller is: " + fallersArray[0]);
+        File fallersTablePic = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(fallersTablePic, new File(System.getProperty("user.dir") + "/test-output/fallersTablePage.jpg"));
+        test.log(LogStatus.INFO, "Fallers table", "<img src=fallersTablePage.jpg>");
     }
 
     @AfterMethod
